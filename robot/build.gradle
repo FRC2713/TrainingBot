@@ -1,0 +1,36 @@
+apply plugin: 'java'
+apply plugin: "jaci.openrio.gradle.GradleRIO"
+
+def TEAM = 2713
+def ROBOT_CLASS = "org.iraiders.robot2018.robot.Robot"
+def DEBUG = project.hasProperty('debugBuild')
+
+sourceCompatibility = 1.8
+
+deploy {
+  targets {
+    target("roborio", jaci.openrio.gradle.frc.RoboRIO) {
+      team = TEAM
+    }
+  }
+  artifacts {
+    artifact('frcJava', jaci.openrio.gradle.frc.FRCJavaArtifact) {
+      targets << "roborio"
+      debug = DEBUG
+    }
+  }
+}
+
+dependencies {
+  compile wpilib() // All WPILib required bits
+  compile ctre() // Talon SRX
+  compile pathfinder() // Motion Profiling Calculation
+  compile 'com.github.juchong:ADIS16448-RoboRIO-Driver:5e46734' // IMU Driver
+  testCompile 'junit:junit:4.12'
+}
+
+jar {
+  from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+  manifest jaci.openrio.gradle.GradleRIOPlugin.javaManifest(ROBOT_CLASS)
+}
+
