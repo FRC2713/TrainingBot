@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: "jaci.openrio.gradle.GradleRIO"
 
 def TEAM = 2713
-def ROBOT_CLASS = "org.iraiders.robot2018.robot.Robot"
+def ROBOT_CLASS = "org.iraiders.trainingbot.robot.Robot"
 def DEBUG = project.hasProperty('debugBuild')
 
 sourceCompatibility = 1.8
